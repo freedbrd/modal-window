@@ -1,6 +1,6 @@
 Element.prototype.appendAfter = function(el) {
-  el.parentNode.insertBefore(this, el.nextSibling)
-}
+  el.parentNode.insertBefore(this, el.nextSibling);
+};
 
 function noop() {}
 
@@ -19,8 +19,8 @@ function _createModalFooter(buttons = []) {
     btn.classList.add(`btn-${button.type || 'secondary'}`);
     btn.onclick = button.handler || noop;
 
-    wrap.appendChild(btn)
-  })
+    wrap.appendChild(btn);
+  });
 
   return wrap;
 }

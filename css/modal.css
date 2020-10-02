@@ -1,4 +1,10 @@
-.vmodal {}
+.vmodal {
+    pointer-events: none;
+}
+
+.vmodal.open {
+    pointer-events: all;
+}
 
 .vmodal.open .modal-overlay,
 .vmodal.open .modal-window {
