@@ -24,20 +24,32 @@ function _createModal(options) {
     </div>
   `);
 
-  document.body.appendChild(modal)
+  document.body.appendChild(modal);
   return modal;
 }
 
 $.modal = function(options) {
   const $modal = _createModal(options);
+  const animationSpeed = 200;
+
+  let closing = false;
 
   return {
     open() {
-      $modal.classList.add('open')
+      if (closing) return;
+
+      $modal.classList.add('open');
     },
     close() {
-      $modal.classList.remove('open')
+      closing = true;
+      $modal.classList.remove('open');
+      $modal.classList.add('hide');
+
+      setTimeout(() => {
+        $modal.classList.remove('hide');
+        closing = false;
+      }, animationSpeed);
     },
-    destroy() {}
-  }
-}
+    destroy() {},
+  };
+};
