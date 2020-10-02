@@ -2,19 +2,14 @@ function _createModal(options) {
   const modal = document.createElement('div');
   modal.classList.add('vmodal');
   modal.insertAdjacentHTML('beforeend', `
-    <div class="modal-overlay">
-      <div class="modal-window">
+    <div data-close class="modal-overlay">
+      <div class="modal-window" style="width: ${options.width || '600px'}">
         <div class="modal-header">
-          <span class="modal-title">Modal Title</span>
-          <span class="modal-close">&times;</span>
+          <span class="modal-title">${options.title || 'Modal Title'}</span>
+          ${options.closable ? `<span data-close class="modal-close">&times;</span>` : ''}
         </div>
         <div class="modal-body">
-          <p>
-            Lorem ipsum dolor sit.
-          </p>
-          <p>
-            Lorem ipsum dolor sit.
-          </p>
+          ${options.content || ''}
         </div>
         <div class="modal-footer">
           <button>ok</button>
@@ -31,10 +26,9 @@ function _createModal(options) {
 $.modal = function(options) {
   const $modal = _createModal(options);
   const animationSpeed = 200;
-
   let closing = false;
 
-  return {
+  const modal = {
     open() {
       if (closing) return;
 
@@ -50,6 +44,13 @@ $.modal = function(options) {
         closing = false;
       }, animationSpeed);
     },
-    destroy() {},
-  };
+  }
+
+  $modal.addEventListener('click', (event) => {
+    if ('close' in event.target.dataset) {
+      modal.close();
+    }
+  })
+
+  return modal;
 };
