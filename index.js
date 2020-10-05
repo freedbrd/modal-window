@@ -1,4 +1,4 @@
-const fruits = [
+let fruits = [
   {
     id: 1,
     title: 'Apple',
@@ -27,7 +27,7 @@ const toHtml = fruit => `
       <h5 class="card-title">${fruit.title}</h5>
       <p class="card-text">Product: ${fruit.title}</p>
       <a href="#" class="btn btn-primary" data-btn="price" data-id="${fruit.id}">Show the price</a>
-      <a href="#" class="btn btn-danger">Remove</a>
+      <a href="#" class="btn btn-danger" data-btn="remove" data-id="${fruit.id}">Remove</a>
     </div>
   </div>
 </div>
@@ -57,12 +57,25 @@ const modal = $.modal({
 document.addEventListener('click', event => {
   const btnType = event.target.dataset.btn;
   const fruitId = event.target.dataset.id;
-  console.log(fruits);
 
   if (btnType === 'price') {
     const fruit = fruits.find(item => item.id === +fruitId);
 
     modal.open();
     modal.setContent(`Price is ${fruit.price}$`);
+  }
+
+  if (btnType === 'remove') {
+    const fruit = fruits.find(item => item.id === +fruitId);
+
+    $.confirm({
+      title: 'Remove product',
+      content: `Are you sure you want to remove ${fruit.title}?`
+    })
+      .then(() => {
+        fruits = fruits.filter(fruit => fruit.id !== +fruitId)
+        render();
+      })
+      .catch()
   }
 });
